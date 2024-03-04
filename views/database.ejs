@@ -1,0 +1,110 @@
+<% include ../views/partials/header %>
+<style>
+/* https://stackoverflow.com/questions/941261/checkered-table-rows-and-columns */
+tr td
+{
+    background-color: #fff;
+}
+
+tr:nth-child(even) td:nth-child(odd), 
+tr:nth-child(odd) td:nth-child(even)
+{
+    background-color: #ccc;
+}
+</style>
+    </head>
+    <body style="background-color:black;">          
+
+<% include ../views/partials/header2 %>
+
+<br>
+<br>
+
+		<span style="color:white;">
+			There are <a href="#commonalities"><%= tagsAll.length %> commonalities</a> 
+			on this page.
+			<br>
+			Click one of them<i>!</i>
+
+			<br>
+			<br>
+
+			<i class="far fa-hand-point-down"></i>
+		</span>
+
+<br>
+<br>
+
+        <table id="commonalities" class="table table-hover" style="background-color:#dddddd;">
+
+	    <% var i = 0 %>
+            <% tagsAll.forEach(function(tag){ %>
+	    <% i++ %>
+
+
+	    <tr>
+            <td>
+	    <form class="form-inline" method="POST" action="/search/query">
+	    <a href="commonalities/<%= tag.description %>" onclick="this.closest('form').submit();return false;">
+	    <div>
+                        <input type="hidden" name="statementQuery" value="<%= tag.description %>">
+
+			<br>
+
+			<span style="font-family: 'Times New Roman', Times, serif;font-weight:bold;font-size:17px;">
+				<!-- https://stackoverflow.com/questions/4286466/use-a-normal-link-to-submit-a-form -->
+				    <%= tag.description %>
+			</span>
+
+			<br>
+
+			<span style="font-size:10px;color:black;">
+				<%= tag.count %> <% if (tag.count == 1) { %> person <% } else { %> people <% } %> opted-in to this commonality
+			</span>
+	    
+			<br>
+			<br>
+	    </div>
+	    </a>
+            </form>
+	    </td>
+	    </tr>
+            <% }) %>
+        </table>
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+		</div>
+	</div>
+</div>
+</div>
+<script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<!-- http://jsfiddle.net/h6su67rn/ -->
+<!-- https://stackoverflow.com/questions/34261365/retain-scrollbar-position-even-after-reloading-using-javascript -->
+<script>
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+
+

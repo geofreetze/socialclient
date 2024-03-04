@@ -1,0 +1,15 @@
+<% include ../views/partials/header %>
+
+
+<textarea rows="10" cols="40" name="email" form="backuptag">email</textarea>
+<textarea rows="10" cols="70" name="tag" form="backuptag">tag</textarea>
+<textarea rows="10" cols="10" name="weight" form="backuptag">weight</textarea>
+
+<br>
+
+<form method="POST" action="/backuptag" id="backuptag">
+	    <input type="password" name="password">
+            <input type="submit" value="Submit" class="btn btn-default btn-sm">
+</form>
+
+<% include ../views/partials/footer %>

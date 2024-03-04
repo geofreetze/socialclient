@@ -1,0 +1,453 @@
+<% include ../views/partials/header %>
+<style>
+
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 58.35%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* https://stackoverflow.com/questions/7381446/center-html-input-text-field-placeholder */
+::-webkit-input-placeholder {
+   text-align: center;
+   font-size:12px;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
+
+
+/* https://css-tricks.com/snippets/css/css-box-shadow/ */
+.shadow2 {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #888;
+}
+
+
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_js_rangeslider_round */
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background-image: linear-gradient(to right, rgba(255, 0, 0, 0.7), rgba(255, 68, 255, 0.7), rgba(0, 255, 255, 0.7));
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  background-image: linear-gradient(to right, rgba(111, 111, 111, 0.7), rgba(0, 189, 189, 0.7), rgba(0, 255, 255, 0.7));
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #555;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+</style>
+
+
+<!-- https://youtu.be/pRiQeo17u6c -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    </head>
+    <body style="background-color:#888888;">          
+
+<% include ../views/partials/header2 %>
+				<b><a href="/settings" style="color:black;"><div class="col-xs-3 shadow" style="background-color:#999999;"><br><span style="font-size:10px;">Settings</span><br><i class="fas fa-cog"></i><br><br></div></a></b>
+				<a href="/commonalities" style="color:black;"><div class="col-xs-3" style="background-color:white;"><br><span style="font-size:10px;">Commonalities</span><br><img src="https://i.imgur.com/uVlwftM.png" alt="venn diagram"><br><br></div></a>
+				<a href="/matches" style="color:black;"><div class="col-xs-3" style="background-color:#ff44ff;"><br><span style="font-size:10px;">Matches</span><br><i class="fas fa-user-group"></i><br><br></div></a>
+				<a href="/icebreaker" style="color:black;"><div class="col-xs-3" style="background-color:#44ffff;"><br><span style="font-size:10px;">Icebreaker</span><br><i class="fas fa-hammer"></i><i class="fas fa-cubes"></i><br><br></div></a>
+			</div>
+
+			<br>
+
+You're logged in as: <b><%= user %></b><br>
+<br>
+
+	<div class="row">
+	<div class="col-md-12">
+	<% if (contactInfo === "") { %>
+
+            <div class="well" style="background-color:black;margin:15px;">
+            <form class="form-inline" method="POST" action="/update-contact-info">
+			<b>
+			<span style="color:#dddddd;padding:4px;font-size:24px;">
+				Enter your contact info.
+			</span>
+			<br>
+			<span style="font-size:24px;color:#777777;">
+				&nbsp;&nbsp;
+				<i class="fas fa-long-arrow-alt-down"></i> &nbsp;
+				<i class="fas fa-long-arrow-alt-down"></i> &nbsp;
+				<i class="fas fa-long-arrow-alt-down"></i> &nbsp;
+				<i class="fas fa-long-arrow-alt-down"></i> &nbsp;
+				<i class="fas fa-long-arrow-alt-down"></i> &nbsp;
+			</span>
+			</b>
+			<br>
+                <div class="row">
+
+                    <div class="col-xs-6" style="text-align:right;">
+        	                <input type="text" name="contact" maxlength="100" placeholder="your info here" required="required" autofocus>
+                    </div>
+
+                    <div class="col-xs-1"></div>
+
+                    <div class="col-xs-4" style="text-align:left;">
+			<button type="submit" class="btn btn-success">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;"><i class="fas fa-edit"></i> ENTER</span>
+			</button>
+                    </div>
+                </div>
+            </form>
+	    <span style="color:white;">
+			e.g. 
+			<ul>
+				<li>555-555-5555</li>
+				<li>Discord: xxxxxx#1234</li>
+				<li>anonymous@gmail.com</li>
+			</ul>
+	    </span>
+            </div>
+
+
+	<% } else { %>
+
+
+            <div class="well" style="background-color:black;margin:15px;color:white;">
+            <form class="form-inline" method="POST" action="/update-contact-info">
+                <div class="row">
+
+                    <div class="col-xs-6" style="text-align:center;">
+        	                <input type="hidden" name="contact" maxlength="100" value="">
+				<div style="border-radius:50%;padding:5px;background-color:yellow;color:black;">
+					<%= contactInfo %>
+				</div>
+                    </div>
+
+                    <div class="col-xs-1"></div>
+
+                    <div class="col-xs-4" style="text-align:left;">
+			<button type="submit" class="btn btn-warning">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;"><i class="fas fa-sync-alt"></i> UPDATE</span>
+			</button>
+                    </div>
+                </div>
+            </form>
+	    <span style="font-size:10px;">
+		Your contact info is exchanged when you match with someone.
+	    </span>
+            </div>
+
+<% if (latitude == 0 && longitude == 0) { %>
+            <div class="well" style="background-color:black;margin:15px;">
+            <form class="form-inline" method="POST" action="/update-location">
+			<span style="color:#dddddd;padding:4px;font-size:24px;">
+				<b>Enter your city?</b> 
+				<!-- <span style="color:#dddddd;font-size:12px;">(optional)</span> -->
+			</span>
+			<br>
+			<br>
+
+                <div class="row">
+
+                    <div class="col-xs-8" style="text-align:right;">
+        	                <input type="text" id="location-input" placeholder="e.g. Berkeley, CA" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-xs-4" style="text-align:left;">
+			<button id="location-button" class="btn btn-success">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;"><i class="fas fa-edit"></i> ENTER</span>
+			</button>
+                    </div>
+                </div>
+
+	<div id="mapNotDisplayedUntilEntered" style="display: none;">
+
+	<!-- https://youtu.be/pRiQeo17u6c -->
+	<br>
+	<br>
+
+	<!-- https://youtu.be/Zxf1mnP5zcw -->
+	<div style="height:250px;width=100%" id="map"></div>
+	<br>
+
+        	                <input type="hidden" id="hiddenLatitude" name="latitude" value="0">
+        	                <input type="hidden" id="hiddenLongitude" name="longitude" value="0">
+
+                    <div style="text-align:center;">
+			<button type="submit" class="btn btn-success">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;">CONFIRM <i class="fa fa-check"></i></span>
+			</button>
+                    </div>
+	</div>
+
+            </form>
+            </div>
+
+<% } else { %>
+            <div class="well" style="background-color:black;margin:15px;color:white;">
+            <form class="form-inline" method="POST" action="/update-location">
+                <div class="row">
+
+                    <div class="col-xs-6" style="text-align:center;">
+        	                <input type="hidden" name="latitude" value="0">
+        	                <input type="hidden" name="longitude" value="0">
+				<div style="border-radius:50%;padding:10px;background-color:#00ffff;font-size:10px;color:black;">
+					<%= latitude %>, <%= longitude %>
+				</div>
+                    </div>
+
+                    <div class="col-xs-1"></div>
+
+                    <div class="col-xs-4" style="text-align:left;">
+			<button type="submit" class="btn btn-warning">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;"><i class="fas fa-sync-alt"></i> UPDATE</span>
+			</button>
+                    </div>
+                </div>
+            </form>
+	    <span style="font-size:9px;">
+		Your city's coordinates	are used to calculate <a href="https://youtu.be/634GucAdzzA?t=540" target="_blank">you & your match's distance</a>.
+	    </span>
+            </div>
+<% } %>
+	<% } %>
+	</div>
+	</div>
+
+
+
+
+
+<% if (contactInfo !== "") { %>
+<div id="text-carousel" class="carousel shadow2" style="background-color:#ffffff;margin:15px;" data-interval="false">
+    <!-- Wrapper for slides -->
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="carousel-content">
+                        <div style="margin-left:0px;">
+
+        			<br>
+        			<br>
+
+				<% if (tags.length == 0) { %> 
+					Click <a href="/commonalities">here</a> to get started.
+				<% } %> 
+
+				<table>
+				<% var i = 0 %>
+				<% tags.forEach(function(tag){ %>
+				<% i++ %>
+					<tr style="line-height:14px;">
+						<span style="font-family:serif;font-weight:bold;">
+						  <%= tag.description %>
+						</span>
+						<br>
+						<br>
+					</tr><tr style="padding-left:5px;">
+						<form class="form-inline" method="POST" action="/change-value-settings">
+						  <input type="hidden" name="tag" value="<%= tag.description %>">
+
+						  <div class="slidecontainer">
+						      <input onchange="this.form.submit()" type="range" name="weight" min="0" max="100" value="<%= tag.weight %>" class="slider" id="myRange<%= i %>" required>
+						      <p style="text-align:right;"><span id="demo<%= i %>"></span></p>
+						  </div>
+
+						  <br>
+						  <br>
+						</form>
+					</tr>
+				<% }); %>
+				</table>
+				<br>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<% } %>
+
+<br>
+<br>
+            <div class="iframe-container">
+		<iframe src="https://www.youtube.com/embed/2CKXw5eAmto" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+
+    <div class="row">
+        <div class="col-xs-offset-1 col-xs-10">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <div class="carousel-content">
+                        <div style="margin-left:0px;text-align:right;">
+
+        			<br>
+        			<br>
+					<a class="btn btn-warning" href="/logout" role="button">Logout &nbsp;<i class="fas fa-sign-out-alt"></i></a>
+        			<br>
+        			<br>
+					<a class="btn btn-danger" href="/delete-my-account" role="button">Delete My Account &nbsp;<i class="fas fa-trash-alt"></i></a>
+        			<br>
+        			<br>
+        			<br>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+</div>
+<script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+<% var i = 0 %>
+<% tags.forEach(function(tag){ %>
+<% i++ %>
+
+var slider<%= i %> = document.getElementById("myRange<%= i %>");
+var output<%= i %> = document.getElementById("demo<%= i %>");
+
+if (slider<%= i %>.value == 1 || slider<%= i %>.value == -1) {
+  output<%= i %>.innerHTML = slider<%= i %>.value + " pt&nbsp;&nbsp;";
+} else {
+  output<%= i %>.innerHTML = slider<%= i %>.value + " pts";
+}
+
+slider<%= i %>.oninput = function() {
+
+if (this.value == 1 || this.value == -1) {
+  output<%= i %>.innerHTML = this.value + " pt&nbsp;";
+} else if (this.value == 0) {
+  output<%= i %>.innerHTML = "opt-out?";
+} else {
+  output<%= i %>.innerHTML = this.value + " pts";
+}
+}
+
+<% }); %>
+</script>
+
+<!-- http://jsfiddle.net/h6su67rn/ -->
+<!-- https://stackoverflow.com/questions/34261365/retain-scrollbar-position-even-after-reloading-using-javascript -->
+<script>
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
+</script>
+
+
+
+<script>
+  function initMap(lat, lng) {
+    var options = {
+      zoom: 8,
+      center: {lat:lat, lng:lng},
+//      disableDefaultUI: true
+    }
+
+    var map = new google.maps.Map(document.getElementById('map'), options);
+
+    var marker = new google.maps.Marker({
+      position: {lat:lat, lng:lng},
+      map: map
+    });
+  }
+
+
+    document.getElementById('location-button').addEventListener('click', geocode);
+
+    function geocode(e){
+      e.preventDefault();
+
+      var location = document.getElementById('location-input').value;
+
+      axios.get('https://maps.googleapis.com/maps/api/geocode/json',{
+        params:{
+          address: location,
+          key: 'AIzaSyA9t7B9LB7pB73HQqb1Je7HEuMSByCVbAw'
+        }
+      })
+      .then(function(response){
+//        console.log(response);
+//        console.log(response.data.results[0].geometry.location.lat);
+//        console.log(response.data.results[0].geometry.location.lng);
+	initMap(response.data.results[0].geometry.location.lat, response.data.results[0].geometry.location.lng);
+	document.getElementById("hiddenLatitude").value = response.data.results[0].geometry.location.lat;
+	document.getElementById("hiddenLongitude").value = response.data.results[0].geometry.location.lng;
+	document.getElementById("mapNotDisplayedUntilEntered").style.display = 'initial';
+      })
+      .catch(function(error){
+        console.log(error);
+      })
+    }
+</script>
+
+
+<script async defer 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9t7B9LB7pB73HQqb1Je7HEuMSByCVbAw&callback=initMap&v=weekly">
+</script>
+
+</body>
+</html>
+
+
+
+

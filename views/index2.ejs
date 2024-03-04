@@ -1,0 +1,422 @@
+<% include ../views/partials/header %>
+
+
+<style>
+
+td {
+  vertical-align: top;
+}
+
+table {
+  margin-left: auto; 
+  margin-right: auto;
+}
+
+/*
+table, th, td {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+}
+*/
+
+
+/* https://css-tricks.com/snippets/css/css-box-shadow/ */
+.shadow {
+   -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+}
+
+.shadow2 {
+  -moz-box-shadow:    3px 3px 5px 6px #888;
+  -webkit-box-shadow: 3px 3px 5px 6px #888;
+  box-shadow:         3px 3px 5px 6px #888;
+}
+
+
+/* https://codepen.io/aaroniker/pen/XxPNqY */
+.bottom_left {
+  position: fixed;
+  display: block;
+  left: 10px;
+  bottom: 0px;
+}
+
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 58.35%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* https://codepen.io/nohoid/pen/kIfto */
+.wrapper { 
+  border-radius: 50px;
+  height: 400px;
+  width: 400px;
+background: linear-gradient(24deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+background-size: 1800% 1800%;
+
+-webkit-animation: rainbow 38s ease infinite;
+-z-animation: rainbow 38s ease infinite;
+-o-animation: rainbow 38s ease infinite;
+  animation: rainbow 38s ease infinite;}
+
+@-webkit-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-moz-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-o-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+</style>
+
+    </head>
+    <body style="background-color:black;color:white;">
+    
+
+
+    <div class="container">
+        <%- messages('message', locals) %>
+
+
+<br>
+<br>
+<div style="text-align:center;">
+<div style="display: inline-block; text-align: left;">
+<table style="text-align:center;">
+	<tr>
+	<td>
+		<br>
+		<span style="font-size:42px;color:white;"><%= userCount %> people</span>
+
+		<div style="margin-top:-15px;">
+		    &nbsp;&nbsp;&nbsp;&nbsp;
+		  <a data-toggle="collapse" href="#collegeList" role="button" aria-expanded="false" aria-controls="collegeList" id="showCollegeList">
+		    <span style="font-size:11px;">Click here to see email domains.</span>
+		  </a>
+		</div>
+	</td>
+	<td style="vertical-align: bottom;">
+		<span style="font-size:24px;color:gray;">&nbsp;<%= tagsAll.length %> commonalities</span>
+
+		<div style="margin-top:-10px;">
+		    &nbsp;&nbsp;
+		  <a data-toggle="collapse" href="#commonalitiesList" role="button" aria-expanded="false" aria-controls="commonalitiesList" id="showCommonalitiesList">
+		    <span style="font-size:11px;">Click here to see commonalities.</span>
+		  </a>
+		</div>
+
+		<br>
+		<span style="font-size:18px;color:black;background-color:gray;padding:5px;">&nbsp;<%= optInCount %> opt-ins&nbsp;</span>
+
+		<div style="margin-top:0px;">
+		    &nbsp;&nbsp;
+		  <a data-toggle="collapse" href="#optInList" role="button" aria-expanded="false" aria-controls="optInList" id="showOptInList">
+		    <span style="font-size:11px;">Click here to see opt-ins.</span>
+		  </a>
+		</div>
+	</td>
+	</tr>
+</table>
+
+<table class="collapse" id="collegeList">
+	<% collegeAll.forEach(function(college){ %>
+		<tr>
+			<td colspan="3">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= college.count %>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= college.email %> <% if (college.email.endsWith(".com")) { %> <br><span style="font-size:10px;"><abbr title="If you're verified, you can login with a regular email.">No college email?</abbr></span> <% } %>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+<table class="collapse" id="commonalitiesList">
+	<% tagsAll.forEach(function(tag){ %>
+		<tr>
+			<td>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			</td>
+			<td style="max-width:300px;color:gray;">
+				<%= tag.description %>
+			</td>
+			<td>
+				&nbsp;&nbsp;
+			</td>
+			<td>
+				<%= tag.count %> <% if (tag.count == 1) { %> person <% } else { %> people <% } %> opted-in
+			</td>
+		</tr>
+	<% }); %>
+</table>
+<table class="collapse" id="optInList">
+		<tr>
+			<td>
+				<%= lurkerCount %> lurkers
+			</td>
+			<td>
+				&nbsp;<span style="font-size:9px;color:black;background-color:gray;padding:5px;">opted-in to</span>
+			</td>
+			<td>
+				&nbsp;<span style="color:gray;">0 commonalities</span>
+			</td>				
+		</tr>
+	<% optInAll.forEach(function(optIn){ %>
+		<tr>
+			<td>
+				<%= optIn.count %> <% if (optIn.count == 1) { %> person <% } else { %> people <% } %>
+			</td>
+			<td>
+				&nbsp;<span style="font-size:9px;color:black;background-color:gray;padding:5px;">opted-in to</span>
+			</td>
+			<td>
+				&nbsp;<span style="color:gray;"><%= optIn.email %> <% if (optIn.email == 1) { %> commonality <% } else { %> commonalities <% } %></span>
+			</td>
+		</tr>
+	<% }); %>
+</table>
+
+<br>
+<div class="wrapper">
+	<form id="login" style="text-align:center;">
+
+		<br>
+		<br>
+
+		<h3 style="color:black;">Login <i class="fas fa-sign-in-alt"></i></h3>
+
+		<br>
+		<br>
+
+<table style="text-align:right;display:inline-block;">
+<tr>
+<td style="white-space: nowrap;">
+		<span style="color:black;font-size:12px;">Step 1.&nbsp;&nbsp;</span>
+</td>
+<td style="padding-left:10px;">
+		<div class="g-recaptcha" data-sitekey="6LfAXDgiAAAAAD_bXJUBY5D-pvucV2Gwi4fdZ7KM"></div>
+		<div id="captcha_not_checked_message" style="display: none;color:red;font-weight:bold;">
+			Bee-boo-boo-bop.<br><span style="font-size:10px;">(please confirm you're not a robot)</span>
+		</div>
+		<br>
+</td>
+</tr>
+
+<tr>
+<td style="white-space: nowrap;">
+		<span style="color:black;font-size:12px;">Step 2.&nbsp;&nbsp;</span>
+</td>
+<td>
+		<input style="color:black;" type="email" name="email" id="email" placeholder="your college email" maxlength="100" required="required">
+
+		<span id="not_a_college_email_message" style="display: none;color:red;font-weight:bold;">
+			Sorry, your email didn't end in .edu<br><span style="font-size:10px;">or .edu.XX or .ac.XX</span>
+		</span>
+
+		<span id="not_a_college_email_message2" style="display:block;">
+<!--			<a href="why-not-gmail" target="_blank">why not gmail?</a><br><br> -->
+			<br>
+		</span>
+</td>
+</tr>
+
+<tr>
+<td style="white-space: nowrap;">
+		<span style="color:black;font-size:12px;">Step 3.&nbsp;&nbsp;</span>
+</td>
+<td>
+		<span style="font-size:11px;">triple click <i class="fas fa-long-arrow-alt-right"></i></span>
+		<input class="btn btn-success btn-sm" type="submit" value="Go">
+</td>
+</tr>
+</table>
+	</form>
+</div>
+
+<br>
+
+<div style="line-height:1.5;">
+
+<table>
+<tr>
+	<td style="background-color:yellow;text-align:center;color:black;line-height:0.5;">
+		<h4>&nbsp;<strike><b>tinder for friends</b></strike>&nbsp;</h4>
+		&nbsp;<span style="font-size:11px;">i got a cease-and-desist from Tinder&#174;</span>&nbsp;
+		<br>
+		<br>
+	</td>
+
+	<td>
+	&nbsp;
+	&nbsp;
+	&nbsp;
+
+	<a href="https://www.youtube.com/channel/UCX5rZqDDY4MdXEj8Cu40Afg/videos" target="_blank"><span style="font-size:25px;color:red;"><i class="fab fa-youtube"></i></span></a>
+	&nbsp;
+<!--
+	<a href="https://www.reddit.com/user/geofreetze" target="_blank"><span style="font-size:21px;color:#ff4500;"><i class="fab fa-reddit"></i></span></a>
+	&nbsp;
+	<a href="https://www.instagram.com/geofreetze/?hl=en" target="_blank"><span style="font-size:21px;color:yellow;"><i class="fab fa-instagram"></i></span></a>
+	&nbsp;
+	<a href="https://www.twitter.com/geofreetze" target="_blank"><span style="font-size:21px;color:#30d5c8;"><i class="fab fa-twitter"></i></span></a>
+	&nbsp;
+	<a href="https://www.linkedin.com/in/geofreetze/" target="_blank"><span style="font-size:21px;color:#0274b3;"><i class="fab fa-linkedin"></i></span></a>
+	&nbsp;
+-->
+	<a href="https://discord.gg/cHwKzjKkmv" target="_blank"><span style="font-size:25px;color:#4b61fe;"><i class="fab fa-discord"></i></span></a>
+	&nbsp;
+
+	<a href="https://github.com/geofree-tze/socialclient" target="_blank"><span style="font-size:25px;color:white;"><i class="fab fa-github"></i></span></a>
+	&nbsp;
+
+	<a href="https://docs.google.com/document/d/192jlHot5jk6HJs1wKxnCp4mbiimiVGOXy1ft-OqqvIo/edit?usp=sharing" target="_blank"><span style="font-size:25px;color:#0066da;"><i class="fas fa-file-alt"></i></span></a>
+	&nbsp;
+
+<!--
+    <br>
+    <span style="font-size:11px;color:#0066da;">watch me?</span>
+    <img src="https://i.imgur.com/rfdbPoy.png" style="vertical-align: top;width: 16px;height: 16px;position: relative;display: inline-block;background-size: cover;">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-->
+
+	</td>
+</tr>
+</table>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<script>
+// https://stackoverflow.com/questions/1531093/how-do-i-get-the-current-date-in-javascript
+var today = new Date();
+var dd = String(today.getDate());
+var mm = String(today.getMonth() + 1); //January is 0!
+var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
+
+document.getElementById('time').innerHTML=today;
+</script>
+
+
+<script>
+    document.getElementById('login').addEventListener('submit', submitForm);
+    function submitForm(e){
+        e.preventDefault();
+
+        const email = document.querySelector('#email').value;
+        const captcha = document.querySelector('#g-recaptcha-response').value;
+
+
+
+    // https://stackoverflow.com/questions/8885052/regular-expression-to-validate-email-ending-in-edu
+    // https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_regexp_test2
+    // .edu
+    var patt = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.edu$");
+    // .edu.XX
+    var patt2 = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.edu\.[a-zA-Z0-9.+-]+$");
+    // .ac.XX
+    var patt3 = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.+-]+\.ac\.[a-zA-Z0-9.+-]+$");
+
+
+    if (!(patt.test(email) || (patt2.test(email) || patt3.test(email)))) {
+	document.getElementById('not_a_college_email_message').style.display = 'block';
+	document.getElementById('not_a_college_email_message2').style.display = 'none';
+	document.getElementById('email').value = '';
+	document.getElementById('email').placeholder= 'email@college.edu';
+	document.getElementById('captcha_not_checked_message').style.display = 'none';
+    }
+
+    else if (!(grecaptcha && grecaptcha.getResponse().length !== 0)) {
+	document.getElementById('not_a_college_email_message').style.display = 'none';
+	document.getElementById('not_a_college_email_message2').style.display = 'block';
+	document.getElementById('captcha_not_checked_message').style.display = 'block';
+    }
+
+    else {
+      
+        fetch('/send-invite', {
+            method:'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-type':'application/json'
+            },
+//            body:JSON.stringify({email: email})
+            body:JSON.stringify({email: email, captcha: captcha})
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.success == true) {
+		document.location.replace('https://<%= domainName %>/invite-sent');
+	    } else {
+		document.location.replace('https://<%= domainName %>/');
+	    }
+        });
+    }
+    }
+</script>
+
+
+</div>
+<script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+  $("#showCollegeList").click(function(){
+    $("#collegeList").collapse('toggle');
+    $("#commonalitiesList").collapse('hide');
+    $("#optInList").collapse('hide');
+  });
+  $("#showCommonalitiesList").click(function(){
+    $("#collegeList").collapse('hide');
+    $("#commonalitiesList").collapse('toggle');
+    $("#optInList").collapse('hide');
+  });
+  $("#showOptInList").click(function(){
+    $("#collegeList").collapse('hide');
+    $("#commonalitiesList").collapse('hide');
+    $("#optInList").collapse('toggle');
+  });
+});
+</script>
+
+</body>
+</html>

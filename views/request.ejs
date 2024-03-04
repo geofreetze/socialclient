@@ -1,0 +1,76 @@
+<% include ../views/partials/header %>
+<style>
+
+/* https://stackoverflow.com/questions/7381446/center-html-input-text-field-placeholder */
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
+
+
+/* https://css-tricks.com/snippets/css/css-box-shadow/ */
+.shadow2 {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #888;
+}
+
+</style>
+
+    </head>
+    <body style="background-color:#44ffff;">          
+
+<% include ../views/partials/header2 %>
+
+	<div style="text-align:center;font-size:12px;">
+		<br>
+		do you know someone with a tinder for friends account?<br>
+		do you want to match them directly?<br>
+		type in their college email and <i class="fas fa-paper-plane"></i> send them a friend request<br>
+		<br>
+	</div>
+
+	<div class="row">
+	<div class="col-md-12">
+            <div class="well" style="background-color:#dddddd;margin:15px;">
+            <form class="form-inline" method="POST" action="/request">
+                <div class="row">
+
+                    <div class="col-xs-6" style="text-align:right;">
+        	                <input type="email" name="email" maxlength="100" placeholder="h.shishigami@college.edu" autofocus>
+                    </div>
+
+                    <div class="col-xs-1"></div>
+
+                    <div class="col-xs-4" style="text-align:left;">
+			<button type="submit" class="btn btn-success">
+                            <span style="font-size:11px;font-family:Helvetica;font-weight:bold;color:#e5e5e5;"><i class="fas fa-paper-plane"></i> SEND</span>
+			</button>
+                    </div>
+                </div>
+            </form>
+            </div>
+	</div>
+	</div>
+
+	<br>
+	<div style="text-align:center;">
+		if they accept, you'll get an email<br>
+		revealing <span style="background-color:#892892;color:white;">&nbsp;everything you two have in common&nbsp;</span><br>
+		<a href="https://youtu.be/yjk-jpoSBlQ" target="_blank"><img width="100%" src="https://i.imgur.com/xC0REAB.png" alt="venn diagram people"></a>
+		<br>
+		<span style="font-size:12px;color:#696969;">tinder for friends .com</span>
+	</div>
+
+<% include ../views/partials/footer %>

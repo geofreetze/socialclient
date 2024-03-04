@@ -1,0 +1,18 @@
+<% include ../views/partials/header %>
+
+<textarea rows="10" cols="70" name="email" form="backupuser">email</textarea>
+<textarea rows="10" cols="70" name="contact" form="backupuser">contact</textarea>
+<textarea rows="10" cols="7" name="latitude" form="backupuser">latitude</textarea>
+<textarea rows="10" cols="7" name="longitude" form="backupuser">longitude</textarea>
+<textarea rows="10" cols="7" name="addCount" form="backupuser">addCount</textarea>
+<textarea rows="10" cols="7" name="addFriendCount" form="backupuser">addFriendCount</textarea>
+
+<br>
+
+<form method="POST" action="/backupuser" id="backupuser">
+	    <input type="password" name="password">
+            <input type="submit" value="Submit" class="btn btn-default btn-sm">
+</form>
+
+
+<% include ../views/partials/footer %>

@@ -1,0 +1,320 @@
+<% include ../views/partials/header %>
+
+<style>
+/* https://stackoverflow.com/questions/19502835/is-it-possible-to-change-between-two-fontawesome-icons-on-hover */
+.hoverTest:hover .fa-check,
+.hoverTest .fa-times {
+    display: none;
+}
+.hoverTest:hover .fa-times {
+    display: inline;
+}
+.hoverTest:hover {
+  background-color: #d9534f;
+}
+
+/* https://css-tricks.com/snippets/css/css-box-shadow/ */
+.shadow3 {
+  -moz-box-shadow:    1px 1px 3px 4px #ccc;
+  -webkit-box-shadow: 1px 1px 3px 4px #ccc;
+  box-shadow:         1px 1px 3px 4px #777;
+}
+
+.shadow2 {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #777;
+}
+
+/* https://stackoverflow.com/questions/7641130/center-text-in-table-cell */
+.ui-helper-center {
+    text-align: center;
+}
+</style>
+
+    </head>
+    <body style="background-color:#ff44ff;">          
+
+<% include ../views/partials/header2 %>
+				<a href="/settings" style="color:black;"><div class="col-xs-3" style="background-color:#999999;"><br><span style="font-size:10px;">Settings</span><br><i class="fas fa-cog"></i><br><br></div></a>
+				<a href="/commonalities" style="color:black;"><div class="col-xs-3" style="background-color:white;"><br><span style="font-size:10px;">Commonalities</span><br><img src="https://i.imgur.com/uVlwftM.png" alt="venn diagram"><br><br></div></a>
+				<a href="/matches" style="color:black;"><div class="col-xs-3 shadow" style="background-color:#ff44ff;"><br><span style="font-size:10px;">Matches</span><br><i class="fas fa-user-group"></i><br><br></div></a>
+				<a href="/icebreaker" style="color:black;"><div class="col-xs-3" style="background-color:#44ffff;"><br><span style="font-size:10px;">Icebreaker</span><br><i class="fas fa-hammer"></i><i class="fas fa-cubes"></i><br><br></div></a>			</div>
+
+			<br>
+
+<% var advertisementPictures = ["https://i.imgur.com/uWlqUSg.png", 
+"https://i.imgur.com/HtAaeX6.jpg", 
+"https://i.imgur.com/xX7rMnY.jpg", 
+"https://i.imgur.com/2Ec4bQY.jpg", 
+"https://i.imgur.com/ivkID1X.jpg", 
+"https://i.imgur.com/acRTLzf.jpg" ] %>
+
+<% if (kindred.length > 0) { %>
+<div id="text-carousel" class="carousel shadow2" style="background-color:#ffffff;margin:15px;" data-interval="false">
+    <!-- Wrapper for slides -->
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-8">
+            <div class="carousel-inner" style="text-align:center;">
+
+		<% var j = 1; %>
+		<% var lastSlideAndStillNotActive = false; %>
+                <% kindred.forEach(function(user) { %>
+
+                <div class="item <% if ( ( (!matchIndex && j == 1) || matchIndex == user.email ) || (!lastSlideAndStillNotActive && j == kindred.length) ) { lastSlideAndStillNotActive = true; %>active<% } %>">
+                    <div class="carousel-content">
+				<br>
+				<br>
+
+				<span style="font-size:42px;">
+					<i class="fas fa-user-alt"></i>
+				</span>
+
+				<br>
+
+				<span style="font-size:14px;">
+					match <%= j++ %> of <%= kindred.length %>
+				</span>
+
+				<br>
+
+				<span style="font-size:12px;">
+					<% if (user.distance > 90000) { // it's over 9000...*10 %>
+						distance n/a
+					<% } else { %>
+						<%= user.distance %> miles away
+					<% } %>
+				</span>
+
+				<br>
+				<br>
+
+			<table class="table" style="font-size:12px;text-align:left;background-image: linear-gradient(to right, red , #00a8f2);color:white;border-radius:15px;">
+			  <thead class="thead-dark">
+				<tr>
+					<th>
+						You
+					</th>
+					<th style="text-align:center;color:#ff44ff;">
+						<a href="https://youtu.be/KVAPsT_P660" target="_blank">
+							<img width="16px" src="https://i.imgur.com/uVlwftM.png" alt="venn diagram">
+						</a>
+					</th>
+					<th style="text-align:right;">
+						Them
+					</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<% user.tags.sort((a, b) => b[3] - a[3]); %>
+				<% var k = 1; %>
+                	        <% user.tags.forEach(function(tag) { %>
+				<% k++; %>
+				<tr>
+					<td style="text-align:left;">
+						<span style="font-size:8px;">
+								<%= tag[1] %>
+						</span>
+					</td>
+					<td style="text-align:center;color:white;">
+						<!-- https://css-tricks.com/almanac/properties/o/overflow-wrap/ -->
+						<p style="max-width: 115px;">
+						<span style="overflow-wrap: break-word;word-wrap: break-word;hyphens: auto;font-size:10px;"><%= tag[0] %></span>
+						</p>
+					</td>
+					<td style="text-align:right;">
+						<span style="font-size:8px;">
+								<%= tag[2] %>
+						</span>
+					</td>
+				</tr>
+        	                <% }); %>
+			  </tbody>
+			</table>
+
+			<% if (user.isMatch) { %>
+
+				<div style="background-color:yellow;border-radius:50%;">
+					<br>
+					<b><u>Their Contact Info</u></b>
+					<br>
+					<span style="font-size:17px;">&#8618;</span>
+					<%= user.contactInfo %>
+					&nbsp;&nbsp;
+					<br>
+					<br>
+				</div>
+			<% } %>
+
+				<br>
+
+			<% if (user.isSwipe) { %>
+				<form class="form-inline" method="POST" action="/match/undo">
+					<input type="hidden" name="matchId" value="<%= user.email %>">
+
+					<button type="submit" class="btn btn-danger btn-lg shadow3" style="border-radius: 50%;font-size:21px;">
+						<i class="fas fa-times"></i>
+						<!--<i class="fas fa-hand-point-right"></i> <span style="font-size:12px;">click here to &ldquo;Swipe Right&rdquo;</span>-->
+					</button>
+
+					<br>
+					<i style="margin-top:10px;font-size:18px;" class="fas fa-long-arrow-alt-up"></i>
+					<br>
+					<span style="font-size:14px;font-weight:bold;">
+						un-swipe?
+					</span>
+
+				</form>
+			<% } else if (user.isMatch) { %>
+				<form class="form-inline" method="POST" action="/match/undo">
+					<input type="hidden" name="matchId" value="<%= user.email %>">
+
+					<button type="submit" class="btn btn-success btn-lg shadow3 hoverTest" style="border-radius: 50%;font-size:21px;">
+						<i class="fas fa-check"></i>
+						<i class="fas fa-times"></i>
+						<!--<i class="fas fa-hand-point-right"></i> <span style="font-size:12px;">click here to &ldquo;Swipe Right&rdquo;</span>-->
+					</button>
+
+					<br>
+					<i style="margin-top:10px;font-size:18px;" class="fas fa-long-arrow-alt-up"></i>
+					<br>
+					<span style="font-size:14px;font-weight:bold;">
+						unmatch?
+					</span>
+				</form>
+<!--
+				<br>
+				<br>
+				<div style="background-color:black;color:white;font-size:10px;">
+					This is a <b style="color:yellow;">randomly generated</b> ad.<br>It will be custom-tailored in the future.
+				</div>
+				<img width="100%" src="<%= advertisementPictures[Math.floor(Math.random()*advertisementPictures.length)]%>" alt="your ad here">
+				<br>
+				<div style="background-color:black;color:white;font-size:10px;">
+					You were targeted for this ad because you opted-in to
+	                	        <% user.tags.forEach(function(tag) { %>
+						<% if (Math.random() > 0.7) { %>
+							<span style="font-size:8px;color:gray;"><%= tag[0] %>,</span>
+						<% } %>
+        		                <% }); %>
+					<span style="font-size:8px;color:gray;">commonality 1, ... , commonality n</span>
+				</div>
+				<br>
+				<br>
+-->
+<!--
+				<br>
+				<b>Your match's contact info</b>
+				<br>
+				<i style="margin-bottom:10px;font-size:18px;" class="fas fa-long-arrow-alt-down"></i>
+				<br>
+				<div style="border-radius: 50%;font-size:21px;background-color:yellow;">
+				<%= user.contactInfo %>
+				</div>
+-->
+				<% } else { %>
+				<form class="form-inline" method="POST" action="/match/swipe">
+					<input type="hidden" name="matchId" value="<%= user.email %>">
+
+					<button type="submit" class="btn btn-primary btn-lg shadow3" style="border-radius: 50%;font-size:21px;">
+						<i class="fas fa-heart"></i>
+						<!--<i class="fas fa-hand-point-right"></i> <span style="font-size:12px;">click here to &ldquo;Swipe Right&rdquo;</span>-->
+					</button>
+
+					<br>
+					<i style="margin-top:10px;font-size:18px;" class="fas fa-long-arrow-alt-up"></i>
+					<br>
+					<span style="font-size:14px;font-weight:bold;">
+						<a href="https://youtu.be/4je0GozpJL0" target="_blank">swipe right?</a>
+					</span>
+
+				</form>
+				<% } %>
+                    </div>
+                </div>
+
+                <% }); %>
+		<br>
+		<br>
+	    </div>
+	</div>
+    </div>
+<% } %>
+<% if (kindred.length > 1) { %>
+    <!-- Controls --> 
+
+ <a class="left carousel-control" style="background-color:gray;" href="#text-carousel" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span style="font-size:14px;">back</span>
+  </a>
+
+ <a class="right carousel-control" style="background-color:gray;" href="#text-carousel" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <span style="font-size:14px;">next</span>
+  </a>
+<% } %>
+<% if (kindred.length > 0) { %>
+</div>
+<% } %>
+
+
+<% if (kindred.length == 0) { %>
+<div id="text-carousel" class="carousel" style="background-color:#ffffff;margin:15px;" data-interval="false">
+    <!-- Wrapper for slides -->
+    <div class="row">
+        <div class="col-xs-offset-2 col-xs-8">
+            <div class="carousel-inner" style="text-align:center;">
+
+                <div class="item active">
+                    <div class="carousel-content">
+				<br>
+
+				<h3>No matches<i>!</i></h3>
+				<br>
+				<span style="font-size:12px;">
+				Hint: go to the <a href="/commonalities">Commonalities <img src="https://i.imgur.com/uVlwftM.png" alt="venn diagram"></a></a> page and add some commonalities.
+				</span>
+				<br>
+				<br>
+                    </div>
+                </div>
+
+		<br>
+		<br>
+	    </div>
+	</div>
+    </div>
+</div>
+<% } %>
+
+
+		</div>
+	</div>
+
+</div>
+</div>
+<script   src="https://code.jquery.com/jquery-1.12.4.js"   integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+<!-- http://jsfiddle.net/h6su67rn/ -->
+<!-- https://stackoverflow.com/questions/34261365/retain-scrollbar-position-even-after-reloading-using-javascript -->
+<script>
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
+$(document).ready(function() {
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
